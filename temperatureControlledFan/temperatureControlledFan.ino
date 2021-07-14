@@ -1,3 +1,4 @@
+// Declare all the pins 
 int temp = A0;
 int greenLed = 2;
 int redLed = 4;
@@ -8,29 +9,30 @@ int thresholdValue = 0;
 int celsius = 0;
 int fahrenheit = 0;
 
+// Functions for various work
 void greenLightOn(){
-  digitalWrite(greenLed, HIGH);
+	digitalWrite(greenLed, HIGH);
 }
 void greenLightOff(){
-  digitalWrite(greenLed, LOW);
+	digitalWrite(greenLed, LOW);
 }
 void redLightOn(){
-  digitalWrite(redLed, HIGH);
+	digitalWrite(redLed, HIGH);
 }
 void redLightOff(){
-  digitalWrite(redLed, LOW);
+	digitalWrite(redLed, LOW);
 }
 void fanOn(){
-  digitalWrite(fan, HIGH);
+	digitalWrite(fan, HIGH);
 }
 void fanOff(){
-  digitalWrite(fan, LOW);
+	digitalWrite(fan, LOW);
 }
 void buzzerOn(){
-  digitalWrite(buzzer, HIGH);
+	digitalWrite(buzzer, HIGH);
 }
 void buzzerOff(){
-  digitalWrite(buzzer, LOW);
+	digitalWrite(buzzer, LOW);
 }
 
 void setup()
@@ -43,10 +45,9 @@ void setup()
   Serial.begin(9600);
 }
 
-void loop()
-{
-  //thresholdValue = 38;
+void loop(){
   
+  // Temperature calculation
   celsius = map(((analogRead(A0) - 20) * 3.04), 0, 1023, -40, 125);
   fahrenheit = ((celsius * 9) / 5 + 32);
   
@@ -56,30 +57,29 @@ void loop()
   Serial.println(" F");
   
   if( celsius<= 30){
-    //digitalWrite(greenLed,HIGH);
     greenLightOn();
     redLightOff();
     fanOff();
-    buzzerOff;
+    buzzerOff();
     //Serial.println("green light on");
-    
   }
   else if(celsius >= 31 && celsius <= 40){
-    digitalWrite(greenLed, LOW);
-    digitalWrite(fan, LOW);
-    digitalWrite(buzzer, LOW);
-    digitalWrite(redLed, HIGH);
+    greenLightOff();
+    fanOff();
+    buzzerOff();
+    redLightOn();
     //Serial.println("red light on");
   }
   else if(celsius > 40){
-    digitalWrite(redLed, HIGH);
-    digitalWrite(greenLed, LOW);
-    digitalWrite(fan, HIGH);
-    digitalWrite(buzzer, HIGH);
+    redLightOn();
+    fanOn();
+    buzzerOn();
+    greenLightOff();
+    
     //Serial.println("Red Light On | Fan on");
   }
   else{
-    Serial.println("Temperature is Normal");
+  	Serial.println("Temperature is Normal");
   }
   delay(1000);
 }
